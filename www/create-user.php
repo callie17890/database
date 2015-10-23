@@ -2,13 +2,40 @@
 // including the db_connect file for database helper functions
 include 'db_connect.php';
 
+
+// TODO: generate a new UUID and set it to a variable
+
+
+
 // opening the connection to the mysql database
 $mysql_link = connect('root', '', 'lab_db');
 
-// TODO: call $mysql_link's `query` function and insert the new user's information
-//      don't forget to set the user's id using UUID()
+$name = $mysql_link->real_escape_string($_POST['name']);
+$phone = $mysql_link->real_escape_string($_POST['phone']);
+$email = $mysql_link->real_escape_string($_POST['email']);
 
-// TODO: add the line to display MySQL errors
 
-// TODO: redirect the user back to index.php
+// TODO: change this query so that it uses the UUID generated above
+$users = $mysql_link->query("
+  INSERT INTO user (
+    id,
+    name,
+    phone,
+    email,
+    active
+  ) VALUES (
+    UUID(), 
+    '$name',
+    '$phone',
+    '$email',
+    1
+  )
+");
+
+if($mysql_link->error) throw new \Exception($mysql_link->error);
+
+// TODO: loop over the $_POST['thing'] array
+// TODO: insert the things that were checked for the user 
+
+header('location:/');
 ?>

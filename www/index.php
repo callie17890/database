@@ -8,10 +8,22 @@ $mysql_link = connect('root', '', 'lab_db');
 
 // calling the mysql database to retrieve all active users
 
-$users = $mysql_link->query(
-// TODO: write a query to retrieve all users who are active
-//         i.e. WHERE active='1'
-);
+$users = $mysql_link->query( "
+  SELECT 
+    id,
+    name,
+    phone,
+    email
+  FROM user
+  WHERE active='1'
+");
+
+$things = $mysql_link->query( "
+  SELECT 
+    id,
+    name
+  FROM thing
+");
 
 // display MySQL errors
 if($mysql_link->error) throw new \Exception($mysql_link->error);
@@ -27,35 +39,37 @@ if($mysql_link->error) throw new \Exception($mysql_link->error);
   <body>
     <h1>User List</h1>
      <table>
-      </tr>
+      <tr>
         <th>name</th>
         <th>phone number</th>
         <th>email</th>
         </th>&nbsp;</th>
       </tr>
-      <?php // this code loops over all of the users 
-            // you can address each user as `$user` within this loop
-         foreach($users as $user){ ?>
+      <?php foreach($users as $user){ ?>
         <tr>
-          <!-- TODO: Display the user's information -->
-          <td></td>
-          <td></td>
-          <td></td>
-          <td><!--TODO: make this URL's query string reference the correct user -->
-            <a href="deactivate-user.php?id=">
+          <td><a href="user-details.php?id=<?=$user['id']?>"><?=$user['name']?></a></td>
+          <td><?=$user['phone']?></td>
+          <td><?=$user['email']?></td>
+          <td>
+            <a href="deactivate-user.php?id=<?=$user['id']?>">
               deactivate
             </a>
           </td>
         </tr>
       <?php } ?>
-    </ul>
+    </table>
 
     <h1>New User</h1>
-    <!-- TODO: make this form submit via POST to create-user.php -->
-    <form>
+    <form action="create-user.php" method="POST" >
       <input type="text" name="name" /> 
       <input type="text" name="phone" /> 
       <input type="text" name="email" /> 
+      <br />
+      <?php foreach($things as $thing){ ?>
+        <input type="checkbox" name="thing[<?=$thing['id']?>]" /> 
+        <?=$thing['name']?>
+      <?php } ?>
+      <br />
       <button type="submit"> 
         + create user
       </button>
