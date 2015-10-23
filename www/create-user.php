@@ -35,7 +35,7 @@ $users = $mysql_link->query("
 if($mysql_link->error) throw new \Exception($mysql_link->error);
 
 // TODO: loop over the $_POST['thing'] array
-// TODO: insert the things that were checked for the user 
+// TODO: insert the ids of the things that were checked for the user  into the user_thing table
 
 header('location:/');
 ?>

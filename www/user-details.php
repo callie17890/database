@@ -9,7 +9,7 @@
 // TODO: use fetch_assoc() to put the user's information into an array
 //         save this array as $user
 
-// TODO: retrieve the list of things that are associated with the user as found in the user_thing join table
+// TODO: make a second query to retrieve the list of things that are associated with the user as found in the user_thing join table
 
 ?><!DOCTYPE>
 <html>
